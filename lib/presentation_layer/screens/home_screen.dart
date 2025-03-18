@@ -37,7 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
           if(state is! WeatherFromApiStateLoading){
             Navigator.pop(context);
           }
-          if(state is WeatherFromApiStateSuccess){
+          if(state is WeatherFromApiStateSuccessWithDifference){
+            navigateTo(context, HomeDetailsScreen(cityName: state.cityName.toString(),weatherLocalModel: state.weatherLocalModel,));
+          }
+          if(state is WeatherFromApiStateSuccessWithNoDifference){
             navigateTo(context, HomeDetailsScreen(cityName: state.cityName.toString()));
           }
           if(state is WeatherFromApiStateNotFound){

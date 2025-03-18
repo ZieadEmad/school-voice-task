@@ -5,13 +5,15 @@ import 'package:voiceschooltask/business_layer/get_weather_cubit/from_local_stor
 import 'package:voiceschooltask/business_layer/get_weather_cubit/from_local_storage/states.dart';
 import 'package:voiceschooltask/core_layer/helpers/background_color_handler.dart';
 import 'package:voiceschooltask/core_layer/helpers/convert_from_kelvin_to_celsius.dart';
+import 'package:voiceschooltask/data_layer/data_models/weather_model/weather_local_model.dart';
 import 'package:voiceschooltask/presentation_layer/widgets/screens_widgets/home_details_screen_widgets/error_widget.dart';
 import 'package:voiceschooltask/presentation_layer/widgets/screens_widgets/home_details_screen_widgets/loading_widget.dart';
 import 'package:voiceschooltask/presentation_layer/widgets/screens_widgets/home_details_screen_widgets/success_item_widget.dart';
 
 class HomeDetailsScreen extends StatelessWidget {
-  const HomeDetailsScreen({super.key,required this.cityName});
+  const HomeDetailsScreen({super.key,required this.cityName,this.weatherLocalModel});
   final String cityName ;
+  final WeatherLocalModel? weatherLocalModel ;
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -33,13 +35,13 @@ class HomeDetailsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SuccessItemWidget(value: state.weatherLocalModel.cityName.toString(), title: 'City'),
+                    SuccessItemWidget(newValue: state.weatherLocalModel.cityName.toString(), title: 'City',oldValue: weatherLocalModel?.cityName,),
                     const SizedBox(height: 20,),
-                    SuccessItemWidget(value: '${kelvinToCelsius(state.weatherLocalModel.temp).toString()} °', title: 'Temperature'),
+                    SuccessItemWidget(newValue: '${kelvinToCelsius(state.weatherLocalModel.temp).toString()}°', title: 'Temperature',oldValue:weatherLocalModel?.temp!=null? '${kelvinToCelsius(weatherLocalModel?.temp).toString()}°':null,),
                     const SizedBox(height: 20,),
-                    SuccessItemWidget(value: state.weatherLocalModel.humidity.toString(), title: 'Humidity'),
+                    SuccessItemWidget(newValue: state.weatherLocalModel.humidity.toString(), title: 'Humidity',oldValue:weatherLocalModel?.humidity?.toString(),),
                     const SizedBox(height: 20,),
-                    SuccessItemWidget(value: state.weatherLocalModel.windSpeed.toString(), title: 'Wind Speed'),
+                    SuccessItemWidget(newValue: state.weatherLocalModel.windSpeed.toString(), title: 'Wind Speed',oldValue: weatherLocalModel?.windSpeed.toString(),),
                   ],
                 ),
               );

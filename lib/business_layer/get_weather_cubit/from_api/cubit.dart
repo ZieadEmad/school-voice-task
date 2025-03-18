@@ -28,11 +28,13 @@ getWeatherDataByCityNameFromApi(String cityName){
       "appid":appId
     }
   ).then((value)async{
+    //api data model
     weatherApiModel = WeatherApiModel.fromJson(value.data);
     cityName = weatherApiModel.cityName.toString();
+    //local data model
     var weather = await HiveHelper.getData(boxName: 'weathers', key: cityName);
     if(weather!=null){
-        weatherLocalModel = WeatherLocalModel.fromJson((weather).cast<String, dynamic>());
+      weatherLocalModel = WeatherLocalModel.fromJson((weather).cast<String, dynamic>());
       if(compareDataFromApiWithLocal(weatherApiModel: weatherApiModel, weatherLocalModel: weatherLocalModel)){
         await HiveHelper.updateData(
           boxName: 'weathers',
@@ -44,6 +46,10 @@ getWeatherDataByCityNameFromApi(String cityName){
             'cityName': weatherApiModel.cityName,
           },
         );
+        emit(WeatherFromApiStateSuccessWithDifference(cityName: cityName,weatherLocalModel: weatherLocalModel));
+      }
+      else{
+        emit(WeatherFromApiStateSuccessWithNoDifference(cityName: cityName));
       }
     }
     else{
@@ -57,8 +63,8 @@ getWeatherDataByCityNameFromApi(String cityName){
           'cityName': weatherApiModel.cityName,
         },
       );
+      emit(WeatherFromApiStateSuccessWithNoDifference(cityName: cityName));
     }
-    emit(WeatherFromApiStateSuccess(cityName: cityName));
   }).catchError((e){
     if (e is DioException) {
       if (e.error is SocketException|| e.type == DioExceptionType.receiveTimeout) {

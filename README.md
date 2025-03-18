@@ -13,7 +13,7 @@ T > 35°C	🔴 Red
 
 Stores weather data locally using Hive DB.
 Compares fetched API data with stored local data.
-Displays matching values in black.
+Displays matching newValues in black.
 Highlights differing values in a contrasting color for the same city.
 
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SuccessItemWidget extends StatelessWidget {
-  const SuccessItemWidget({super.key,required this.value,required this.title});
+  const SuccessItemWidget({super.key,required this.newValue,required this.title,this.oldValue});
   final String title;
-  final String value;
+  final String newValue;
+  final String? oldValue;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -11,7 +13,10 @@ class SuccessItemWidget extends StatelessWidget {
       children: [
         Text('$title:',style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
         const SizedBox(width: 8,),
-        Text(value,style: const TextStyle(fontSize: 18),),
+        Text(newValue,style: const TextStyle(fontSize: 18),),
+        const SizedBox(width: 8,),
+        if(oldValue != null&&oldValue!=newValue)
+        Text(oldValue!,style: const TextStyle(fontSize: 18,color: Colors.red),),
       ],
     );
   }

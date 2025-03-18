@@ -12,7 +12,6 @@ class WeatherApiModel {
 }
 
 
-
 class WeatherData {
   late final double? temp;
   late final int? humidity;
@@ -25,7 +24,7 @@ class WeatherData {
 }
 
 class WindData {
-  late final double? speed;
+  late final num? speed;
   WindData.fromJson(Map<String, dynamic> json){
     speed = json['speed'];
   }
